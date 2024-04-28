@@ -1,0 +1,29 @@
+{
+    "name": "XSpaceV21",
+    "version": "1.0.0",
+    "description": "Library used for XSpace v2.1 Boards",
+    "keywords": "control, drv8837, esp32, iot, xspace, xspacev21",
+    "repository":
+    {
+      "type": "git",
+      "url": "https://github.com/TheXSpaceAcademy/XSpaceV21"
+    },
+    "authors":
+    [
+      {
+        "name": "The XSpace Academy",
+        "email": "p.cardenasc@xspace.pe",
+        "url": "http://xspace.pe",
+        "maintainer": true
+      }
+    ],
+    "export": {
+      "exclude":
+      [
+          "test/*"
+      ]
+    },
+    "license": "MIT",
+    "frameworks": ["Arduino"],
+    "platforms": ["espressif32"]
+  }
