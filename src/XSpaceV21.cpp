@@ -144,6 +144,13 @@ double XSpaceV21Board::GetEncoderPosition(int encx, int modo){
 	return pos;
 }
 
+void XSpaceV21Board::Bmi088_init(int accel_cs, int gyro_cs){
+	bmi = new XSBMI088(SPI,accel_cs,gyro_cs);
+}
+
+void XSpaceV21Board::Bmi088_readSensor(float *ax, float *ay, float *az, float *gx, float *gy, float *gz){
+	bmi->readSensor(ax,ay,az,gx,gy,gz);
+}
 
 
 
@@ -1309,10 +1316,6 @@ void Bmi088Gyro::readRegisters(uint8_t subAddress, uint8_t count, uint8_t* dest)
 		digitalWrite(_csPin,HIGH); // deselect the chip
 		_spi->endTransaction(); // end the transaction
 }
-
-
-
-
 
 
 /* BMI088 object, input the SPI bus and chip select pin */

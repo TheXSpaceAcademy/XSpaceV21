@@ -56,6 +56,7 @@ class XSpaceV21Board{
 	private:
 			double _vel_ant = 0;
 			XSDRV88xx DRV88xx[2];
+      XSBMI088 *bmi;
 
 	public:
 		/* Initializes the board and motor driver
@@ -122,6 +123,10 @@ class XSpaceV21Board{
 			@return Current position of the encoder
 		*/
 		double GetEncoderPosition(int encoder, int modo);
+
+
+    void Bmi088_init(int accel_cs, int gyro_cs);
+    void Bmi088_readSensor(float *ax, float *ay, float *az, float *gx, float *gy, float *gz);
 };
 
 
