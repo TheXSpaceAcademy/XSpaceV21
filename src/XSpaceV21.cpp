@@ -150,7 +150,14 @@ void XSpaceV21Board::BMI088_init(int accel_cs, int gyro_cs){
 	bmi->begin();
 }
 
-void XSpaceV21Board::BMI088_GetSensorData(float *ax, float *ay, float *az, float *gx, float *gy, float *gz){
+void XSpaceV21Board::BMI088_GetData(float *ax, float *ay, float *az, float *gx, float *gy, float *gz){
 	bmi->readSensor(ax,ay,az,gx,gy,gz);
 }
 
+void XSpaceV21Board::BMI088_GetAccelData(float *ax, float *ay, float *az){
+	bmi->readAccel(ax,ay,az);
+}
+
+void XSpaceV21Board::BMI088_GetGyroData(float *gx, float *gy, float *gz){
+	bmi->readGyro(gx,gy,gz);
+}

@@ -570,15 +570,13 @@ static const uint8_t bmi_feature_config[] = {
 };
 
 /* BMI088 object, input the SPI bus and chip select pin */
-Bmi088Accel::Bmi088Accel(SPIClass &bus,uint8_t csPin)
-{
+Bmi088Accel::Bmi088Accel(SPIClass &bus,uint8_t csPin){
 	_spi = &bus; // SPI bus
 	_csPin = csPin; // chip select pin
 }
 
 /* begins communication with the BMI088 accel */
-int Bmi088Accel::begin()
-{
+int Bmi088Accel::begin(){
 		// setting CS pin to output
 		pinMode(_csPin,OUTPUT);
 		digitalWrite(_csPin,HIGH);
@@ -634,8 +632,7 @@ int Bmi088Accel::begin()
 }
 
 /* sets the BMI088 output data rate */
-bool Bmi088Accel::setOdr(Odr odr)
-{
+bool Bmi088Accel::setOdr(Odr odr){
 	uint8_t writeReg = 0, readReg = 0, value;
 	switch (odr) {
 		case ODR_1600HZ_BW_280HZ: {
@@ -747,8 +744,7 @@ bool Bmi088Accel::setOdr(Odr odr)
 }
 
 /* sets the BMI088 range */
-bool Bmi088Accel::setRange(Range range)
-{
+bool Bmi088Accel::setRange(Range range){
 	uint8_t writeReg = 0, readReg = 0;
 	readRegisters(ACC_RANGE_ADDR,1,&readReg);
 	writeReg = SET_FIELD(readReg,ACC_RANGE,range);
@@ -781,16 +777,14 @@ bool Bmi088Accel::setRange(Range range)
 }
 
 /* returns whether data is ready or not */
-bool Bmi088Accel::getDrdyStatus()
-{
+bool Bmi088Accel::getDrdyStatus(){
 	uint8_t readReg = 0;
 	readRegisters(ACC_DRDY_ADDR,1,&readReg);
 	return (GET_FIELD(ACC_DRDY,readReg)) ? true : false;
 }
 
 /* reads the BMI088 accel */
-void Bmi088Accel::readSensor()
-{
+void Bmi088Accel::readSensor(){
 	/* accel data */
 	uint16_t temp_uint11;
 	int16_t accel[3], temp_int11;
@@ -817,38 +811,32 @@ void Bmi088Accel::readSensor()
 }
 
 /* returns the x acceleration, m/s/s */
-float Bmi088Accel::getAccelX_mss()
-{
+float Bmi088Accel::getAccelX_mss(){
 	return accel_mss[0];
 }
 
 /* returns the y acceleration, m/s/s */
-float Bmi088Accel::getAccelY_mss()
-{
+float Bmi088Accel::getAccelY_mss(){
 	return accel_mss[1];
 }
 
 /* returns the z acceleration, m/s/s */
-float Bmi088Accel::getAccelZ_mss()
-{
+float Bmi088Accel::getAccelZ_mss(){
 	return accel_mss[2];
 }
 
 /* returns the temperature, C */
-float Bmi088Accel::getTemperature_C()
-{
+float Bmi088Accel::getTemperature_C(){
 	return temp_c;
 }
 
 /* returns the sensor time, ps */
-uint64_t Bmi088Accel::getTime_ps()
-{
+uint64_t Bmi088Accel::getTime_ps(){
 	return time_counter * 39062500;
 }
 
 /* performs BMI088 accel self test */
-bool Bmi088Accel::selfTest()
-{
+bool Bmi088Accel::selfTest(){
 	uint8_t writeReg = 0;
 	float accel_pos_mg[3], accel_neg_mg[3];
 	/* set 24G range */
@@ -891,8 +879,7 @@ bool Bmi088Accel::selfTest()
 }
 
 /* sets whether the sensor is in active or suspend mode */
-bool Bmi088Accel::setMode(bool active)
-{
+bool Bmi088Accel::setMode(bool active){
 	uint8_t writeReg = 0, readReg = 0;
 	uint8_t value = (active) ? ACC_ACTIVE_MODE_CMD : ACC_SUSPEND_MODE_CMD;
 	writeReg = SET_FIELD(writeReg,ACC_PWR_CONF,value);
@@ -903,8 +890,7 @@ bool Bmi088Accel::setMode(bool active)
 }
 
 /* sets whether the sensor is enabled or disabled */
-bool Bmi088Accel::setPower(bool enable)
-{
+bool Bmi088Accel::setPower(bool enable){
 	uint8_t writeReg = 0, readReg = 0;
 	uint8_t value = (enable) ? ACC_ENABLE_CMD : ACC_DISABLE_CMD;
 	writeReg = SET_FIELD(writeReg,ACC_PWR_CNTRL,value);
@@ -915,8 +901,7 @@ bool Bmi088Accel::setPower(bool enable)
 }
 
 /* performs a soft reset */
-void Bmi088Accel::softReset()
-{
+void Bmi088Accel::softReset(){
 	uint8_t reg = 0;
 	reg = SET_FIELD(reg,ACC_SOFT_RESET,ACC_RESET_CMD);
 	writeRegister(ACC_SOFT_RESET_ADDR,reg);
@@ -928,32 +913,28 @@ void Bmi088Accel::softReset()
 }
 
 /* checks the BMI088 for configuration errors */
-bool Bmi088Accel::isConfigErr()
-{
+bool Bmi088Accel::isConfigErr(){
 	uint8_t readReg = 0;
 	readRegisters(ACC_ERR_CODE_ADDR,1,&readReg);
 	return (GET_FIELD(ACC_ERR_CODE,readReg)) ? true : false;
 }
 
 /* checks the BMI088 for fatal errors */
-bool Bmi088Accel::isFatalErr()
-{
+bool Bmi088Accel::isFatalErr(){
 	uint8_t readReg = 0;
 	readRegisters(ACC_FATAL_ERR_ADDR,1,&readReg);
 	return (GET_FIELD(ACC_FATAL_ERR,readReg)) ? true : false;
 }
 
 /* checks the BMI088 accelerometer ID */
-bool Bmi088Accel::isCorrectId()
-{
+bool Bmi088Accel::isCorrectId(){
 	uint8_t readReg = 0;
 	readRegisters(ACC_CHIP_ID_ADDR,1,&readReg);
 	return (GET_FIELD(ACC_CHIP_ID,readReg) == ACC_CHIP_ID) ? true : false;
 }
 
 /* writes a byte to BMI088 register given a register address and data */
-void Bmi088Accel::writeRegister(uint8_t subAddress, uint8_t data)
-{
+void Bmi088Accel::writeRegister(uint8_t subAddress, uint8_t data){
 	_spi->beginTransaction(SPISettings(SPI_CLOCK, MSBFIRST, SPI_MODE0)); // begin the transaction
 	digitalWrite(_csPin,LOW); // select the chip
 	_spi->transfer(subAddress & ~SPI_READ); // write the register address
@@ -964,8 +945,7 @@ void Bmi088Accel::writeRegister(uint8_t subAddress, uint8_t data)
 }
 
 /* writes multiple bytes to BMI088 register given a register address and data */
-void Bmi088Accel::writeRegisters(uint8_t subAddress, uint8_t count, const uint8_t* data)
-{
+void Bmi088Accel::writeRegisters(uint8_t subAddress, uint8_t count, const uint8_t* data){
 
 	_spi->beginTransaction(SPISettings(SPI_CLOCK, MSBFIRST, SPI_MODE0)); // begin the transaction
 	digitalWrite(_csPin,LOW); // select the chip
@@ -979,8 +959,7 @@ void Bmi088Accel::writeRegisters(uint8_t subAddress, uint8_t count, const uint8_
 }
 
 /* reads registers from BMI088 given a starting register address, number of bytes, and a pointer to store data */
-void Bmi088Accel::readRegisters(uint8_t subAddress, uint8_t count, uint8_t* dest)
-{
+void Bmi088Accel::readRegisters(uint8_t subAddress, uint8_t count, uint8_t* dest){
 		_spi->beginTransaction(SPISettings(SPI_CLOCK, MSBFIRST, SPI_MODE0)); // begin the transaction
 		digitalWrite(_csPin,LOW); // select the chip
 		_spi->transfer(subAddress | SPI_READ); // specify the starting register address
@@ -1009,8 +988,7 @@ Bmi088Gyro::Bmi088Gyro(SPIClass &bus,uint8_t csPin)
 }
 
 /* begins communication with the BMI088 gyro */
-int Bmi088Gyro::begin()
-{
+int Bmi088Gyro::begin(){
 		// setting CS pin to output
 		pinMode(_csPin,OUTPUT);
 		// setting CS pin high
@@ -1037,8 +1015,7 @@ int Bmi088Gyro::begin()
 }
 
 /* sets the BMI088 output data rate */
-bool Bmi088Gyro::setOdr(Odr odr)
-{
+bool Bmi088Gyro::setOdr(Odr odr){
 	uint8_t writeReg = 0, readReg = 0;
 	writeReg = SET_FIELD(writeReg,GYRO_ODR,odr);
 	writeRegister(GYRO_ODR_ADDR,writeReg);
@@ -1048,8 +1025,7 @@ bool Bmi088Gyro::setOdr(Odr odr)
 }
 
 /* sets the BMI088 range */
-bool Bmi088Gyro::setRange(Range range)
-{
+bool Bmi088Gyro::setRange(Range range){
 	uint8_t writeReg = 0, readReg = 0;
 	writeReg = SET_FIELD(writeReg,GYRO_RANGE,range);
 	writeRegister(GYRO_RANGE_ADDR,writeReg);
@@ -1085,16 +1061,14 @@ bool Bmi088Gyro::setRange(Range range)
 }
 
 /* returns whether data is ready or not */
-bool Bmi088Gyro::getDrdyStatus()
-{
+bool Bmi088Gyro::getDrdyStatus(){
 	uint8_t readReg = 0;
 	readRegisters(GYRO_DRDY_ADDR,1,&readReg);
 	return (GET_FIELD(GYRO_DRDY,readReg)) ? true : false;
 }
 
 /* reads the BMI088 gyro */
-void Bmi088Gyro::readSensor()
-{
+void Bmi088Gyro::readSensor(){
 	/* accel data */
 	int16_t gyro[3];
 	readRegisters(GYRO_DATA_ADDR,6,_buffer);
@@ -1107,26 +1081,22 @@ void Bmi088Gyro::readSensor()
 }
 
 /* returns the x gyro, rad/s */
-float Bmi088Gyro::getGyroX_rads()
-{
+float Bmi088Gyro::getGyroX_rads(){
 	return gyro_rads[0];
 }
 
 /* returns the y gyro, rad/s */
-float Bmi088Gyro::getGyroY_rads()
-{
+float Bmi088Gyro::getGyroY_rads(){
 	return gyro_rads[1];
 }
 
 /* returns the z gyro, rad/s */
-float Bmi088Gyro::getGyroZ_rads()
-{
+float Bmi088Gyro::getGyroZ_rads(){
 	return gyro_rads[2];
 }
 
 /* performs a soft reset */
-void Bmi088Gyro::softReset()
-{
+void Bmi088Gyro::softReset(){
 	uint8_t reg = 0;
 	reg = SET_FIELD(reg,GYRO_SOFT_RESET,GYRO_RESET_CMD);
 	writeRegister(GYRO_SOFT_RESET_ADDR,reg);
@@ -1134,16 +1104,14 @@ void Bmi088Gyro::softReset()
 }
 
 /* checks the BMI088 gyro ID */
-bool Bmi088Gyro::isCorrectId()
-{
+bool Bmi088Gyro::isCorrectId(){
 	uint8_t readReg = 0;
 	readRegisters(GYRO_CHIP_ID_ADDR,1,&readReg);
 	return (GET_FIELD(GYRO_CHIP_ID,readReg) == GYRO_CHIP_ID) ? true : false;
 }
 
 /* writes a byte to BMI088 register given a register address and data */
-void Bmi088Gyro::writeRegister(uint8_t subAddress, uint8_t data)
-{
+void Bmi088Gyro::writeRegister(uint8_t subAddress, uint8_t data){
 		_spi->beginTransaction(SPISettings(SPI_CLOCK, MSBFIRST, SPI_MODE0)); // begin the transaction
 		digitalWrite(_csPin,LOW); // select the chip
 		_spi->transfer(subAddress & ~SPI_READ); // write the register address
@@ -1153,8 +1121,7 @@ void Bmi088Gyro::writeRegister(uint8_t subAddress, uint8_t data)
 }
 
 /* reads registers from BMI088 given a starting register address, number of bytes, and a pointer to store data */
-void Bmi088Gyro::readRegisters(uint8_t subAddress, uint8_t count, uint8_t* dest)
-{
+void Bmi088Gyro::readRegisters(uint8_t subAddress, uint8_t count, uint8_t* dest){
 		_spi->beginTransaction(SPISettings(SPI_CLOCK, MSBFIRST, SPI_MODE0)); // begin the transaction
 		digitalWrite(_csPin,LOW); // select the chip
 		_spi->transfer(subAddress | SPI_READ); // specify the starting register address
@@ -1167,14 +1134,12 @@ void Bmi088Gyro::readRegisters(uint8_t subAddress, uint8_t count, uint8_t* dest)
 
 
 /* BMI088 object, input the SPI bus and chip select pin */
-XSBMI088::XSBMI088(SPIClass &bus,uint8_t accel_cs,uint8_t gyro_cs)
-{
+XSBMI088::XSBMI088(SPIClass &bus,uint8_t accel_cs,uint8_t gyro_cs){
 	accel = new Bmi088Accel(bus,accel_cs);
 	gyro = new Bmi088Gyro(bus,gyro_cs);
 }
 
-int XSBMI088::begin()
-{
+int XSBMI088::begin(){
 	int status;
 	// begin communication with each device
 	status = accel->begin();
@@ -1196,8 +1161,7 @@ int XSBMI088::begin()
 	return 1;
 }
 
-bool XSBMI088::setOdr(Odr odr)
-{
+bool XSBMI088::setOdr(Odr odr){
 	uint16_t feature_data;
 	switch (odr) {
 		case ODR_2000HZ: {
@@ -1245,8 +1209,7 @@ bool XSBMI088::setOdr(Odr odr)
 	return true;
 }
 
-bool XSBMI088::setRange(AccelRange accel_range,GyroRange gyro_range)
-{
+bool XSBMI088::setRange(AccelRange accel_range,GyroRange gyro_range){
 	if (!accel->setRange((Bmi088Accel::Range)accel_range)) {
 		return false;
 	}
@@ -1256,8 +1219,7 @@ bool XSBMI088::setRange(AccelRange accel_range,GyroRange gyro_range)
 	return true;
 }
 
-void XSBMI088::readSensor(float *ax, float *ay, float *az, float *gx, float *gy, float *gz)
-{
+void XSBMI088::readSensor(float *ax, float *ay, float *az, float *gx, float *gy, float *gz){
 	accel->readSensor();
 	gyro->readSensor();
 
@@ -1270,48 +1232,55 @@ void XSBMI088::readSensor(float *ax, float *ay, float *az, float *gx, float *gy,
 	*gz = gyro->getGyroZ_rads();
 }
 
-float XSBMI088::getAccelX_mss()
-{
+void XSBMI088::readAccel(float *ax, float *ay, float *az){
+	accel->readSensor();
+
+	*ax = accel->getAccelX_mss();
+	*ay = accel->getAccelY_mss();
+	*az = accel->getAccelZ_mss();
+}
+
+void XSBMI088::readGyro(float *gx, float *gy, float *gz){
+	gyro->readSensor();
+
+	*gx = gyro->getGyroX_rads();
+	*gy = gyro->getGyroY_rads();
+	*gz = gyro->getGyroZ_rads();
+}
+
+float XSBMI088::getAccelX_mss(){
 	return accel->getAccelX_mss();
 }
 
-float XSBMI088::getAccelY_mss()
-{
+float XSBMI088::getAccelY_mss(){
 	return accel->getAccelY_mss();
 }
 
-float XSBMI088::getAccelZ_mss()
-{
+float XSBMI088::getAccelZ_mss(){
 	return accel->getAccelZ_mss();
 }
 
-float XSBMI088::getTemperature_C()
-{
+float XSBMI088::getTemperature_C(){
 	return accel->getTemperature_C();
 }
 
-uint64_t XSBMI088::getTime_ps()
-{
+uint64_t XSBMI088::getTime_ps(){
 	return accel->getTime_ps();
 }
 
-float XSBMI088::getGyroX_rads()
-{
+float XSBMI088::getGyroX_rads(){
 	return gyro->getGyroX_rads();
 }
 
-float XSBMI088::getGyroY_rads()
-{
+float XSBMI088::getGyroY_rads(){
 	return gyro->getGyroY_rads();
 }
 
-float XSBMI088::getGyroZ_rads()
-{
+float XSBMI088::getGyroZ_rads(){
 	return gyro->getGyroZ_rads();
 }
 
-bool XSBMI088::writeFeatureConfig()
-{
+bool XSBMI088::writeFeatureConfig(){
 	uint16_t index = 0;
 	uint8_t lsb, msb, status;
 	unsigned int index_step = 16;
@@ -1339,8 +1308,7 @@ bool XSBMI088::writeFeatureConfig()
 	return (status == 1) ? true : false;
 }
 
-void XSBMI088::updateFeatureConfig(uint8_t addr, uint8_t count, const uint16_t *data)
-{
+void XSBMI088::updateFeatureConfig(uint8_t addr, uint8_t count, const uint16_t *data){
 	uint16_t read_length = (addr * 2) + (count * 2);
 	uint8_t feature_data[read_length];
 	accel->readRegisters(ACC_FEATURE_CFG_ADDR,read_length,feature_data);

@@ -130,9 +130,7 @@ class XSpaceV21Board{
 		 *  This function must be called before attempting to read sensor data to ensure the sensor is
 		 *  properly configured and ready to transmit data.
 		 *  @param accel_cs The chip select pin number used for the accelerometer part of the sensor.
-		 *        This pin number must correspond to a valid GPIO pin configured for output.
 		 *  @param gyro_cs The chip select pin number used for the gyroscope part of the sensor.
-		 *        Similarly, this must be a valid output-capable GPIO pin.
 		 */
 		void BMI088_init(int accel_cs, int gyro_cs);
 		
@@ -144,10 +142,37 @@ class XSpaceV21Board{
 		*   @param gx Pointer to a float where the gyroscope's X-axis data will be stored.
 		*   @param gy Pointer to a float where the gyroscope's Y-axis data will be stored.
 		*   @param gz Pointer to a float where the gyroscope's Z-axis data will be stored.
-		* Note: All pointers must be valid and point to allocated memory where the sensor data can be stored.
-		*       The function will overwrite the data in these memory locations with the latest sensor readings.
 		*/
-		void BMI088_GetSensorData(float *ax, float *ay, float *az, float *gx, float *gy, float *gz);
+		void BMI088_GetData(float *ax, float *ay, float *az, float *gx, float *gy, float *gz);
+
+		/**
+		 * Retrieves the latest accelerometer data from the BMI088 sensor. This function
+		 * fetches the most recent X, Y, and Z-axis accelerometer readings and stores them
+		 * in the provided floating-point variables.
+		 *
+		 * @param ax Pointer to a float where the accelerometer's X-axis data will be stored.
+		 *        This location will be overwritten with the new data from the sensor.
+		 * @param ay Pointer to a float where the accelerometer's Y-axis data will be stored.
+		 *        The existing content will be replaced with the updated reading.
+		 * @param az Pointer to a float where the accelerometer's Z-axis data will be stored.
+		 *        The value pointed to by this parameter will be updated with fresh sensor data.
+		 */
+		void BMI088_GetAccelData(float *ax, float *ay, float *az);
+
+		/**
+		 * Fetches the latest gyroscope data from the BMI088 sensor. This function
+		 * collects the current rotational velocity readings around the X, Y, and Z axes
+		 * and outputs them through the provided pointers.
+		 *
+		 * @param gx Pointer to a float that will receive the gyroscope's X-axis rotational
+		 *        velocity in radians per second. The existing content will be replaced with
+		 *        the new data.
+		 * @param gy Pointer to a float that will store the gyroscope's Y-axis rotational
+		 *        velocity. The previous value will be overwritten by the updated data.
+		 * @param gz Pointer to a float to be updated with the gyroscope's Z-axis data.
+		 *        The provided memory location will be overwritten with the new sensor output.
+		 */
+		void BMI088_GetGyroData(float *gx, float *gy, float *gz);
 };
 
 #endif

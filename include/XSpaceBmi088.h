@@ -280,6 +280,8 @@ class XSBMI088 {
     bool setOdr(Odr odr);
     bool setRange(AccelRange accel_range,GyroRange gyro_range);
     void readSensor(float *ax, float *ay, float *az, float *gx, float *gy, float *gz);
+    void readAccel(float *ax, float *ay, float *az);
+    void readGyro(float *gx, float *gy, float *gz);
     float getAccelX_mss();
     float getAccelY_mss();
     float getAccelZ_mss();
