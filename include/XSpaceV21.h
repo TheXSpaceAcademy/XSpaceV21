@@ -60,14 +60,14 @@ class XSpaceV21Board{
       XSBMI088 *bmi;
 
 	public:
-		/* Initializes the board and motor driver
+		/** Initializes the board and motor driver
 			@param frequency PWM frequency for the DRV8837 driver (in Hz)
 			@param resolution Encoder pulses per revolution * gearmotor reduction
 			@param VM DRV8837 driver power supply voltage (range 0v to 11v)
 		*/
 		void init(int frequency, double resolution, double VM);
 
-		/* Initializes encoder1 settings
+		/** Initializes encoder1 settings
 			@param enc_CHAx Channel A pin number
 			@param enc_CHBx Channel B pin number
 			@param resolutionx Encoder resolution
@@ -75,7 +75,7 @@ class XSpaceV21Board{
 		*/
 		void encoder1_init(int enc_CHAx, int enc_CHBx, int resolutionx, int mode);
 
-		/* Initializes encoder2 settings
+		/** Initializes encoder2 settings
 			@param enc_CHAx Channel A pin number
 			@param enc_CHBx Channel B pin number
 			@param resolutionx Encoder resolution
@@ -83,7 +83,7 @@ class XSpaceV21Board{
 		*/
 		void encoder2_init(int enc_CHAx, int enc_CHBx, int resolutionx, int mode);
 
-		/* Initializes DRV8837 motor driver
+		/** Initializes DRV8837 motor driver
 			@param DRVx index of DRV8837 (DRVx1, DRVx2)
 			@param IN1x Pin connected to IN1 on DRV8837
 			@param CH_IN1x PWM channel for IN1
@@ -95,30 +95,30 @@ class XSpaceV21Board{
 		*/
 		void DRV8837_init(int DRVx, int IN1x, int CH_IN1x, int IN2x, int CH_IN2x, int nSLEEPx,int frequencyx, int Vmx);
 
-		/* Puts the DRV8837 motor driver into sleep mode, reducing power consumption.
+		/** Puts the DRV8837 motor driver into sleep mode, reducing power consumption.
 			@param DRVx index of DRV8837 (DRVx1, DRVx2)
 		*/
 		void DRV8837_Sleep(int DRVx);
 
-		/* Wakes the DRV8837 motor driver from sleep mode, enabling normal operation.
+		/** Wakes the DRV8837 motor driver from sleep mode, enabling normal operation.
 			@param DRVx index of DRV8837 (DRVx1, DRVx2)
 		*/
 		void DRV8837_Wake(int DRVx);
 
-		/* Sets the operating voltage for the DRV8837 motor driver.
+		/** Sets the operating voltage for the DRV8837 motor driver.
 			@param DRVx index of DRV8837 (DRVx1, DRVx2)
 		   	@param vp The voltage to be set, which controls the motor speed and power (range 0v to 11v).
 		*/
 		void DRV8837_Voltage(int DRVx,double vp);
 				
-		/* Retrieves the speed of the specified encoder
+		/** Retrieves the speed of the specified encoder
 			@param encoder Encoder number (E1 or E2)
 			@param mode Unit of measurement (DEGREES_PER_SECOND, RADS_PER_SECOND)
 			@return Current speed of the encoder
 		*/
 		double GetEncoderSpeed(int encoder, int modo);
 
-		/* Retrieves the position of the specified encoder
+		/** Retrieves the position of the specified encoder
 			@param encoder Encoder number (E1 or E2)
 			@param mode Unit of measurement (DEGREES, RADS)
 			@return Current position of the encoder
@@ -126,8 +126,28 @@ class XSpaceV21Board{
 		double GetEncoderPosition(int encoder, int modo);
 
 
-    void Bmi088_init(int accel_cs, int gyro_cs);
-    void Bmi088_readSensor(float *ax, float *ay, float *az, float *gx, float *gy, float *gz);
+		/** Initializes the BMI088 sensor with specific chip select pins for accelerometer and gyroscope.
+		 *  This function must be called before attempting to read sensor data to ensure the sensor is
+		 *  properly configured and ready to transmit data.
+		 *  @param accel_cs The chip select pin number used for the accelerometer part of the sensor.
+		 *        This pin number must correspond to a valid GPIO pin configured for output.
+		 *  @param gyro_cs The chip select pin number used for the gyroscope part of the sensor.
+		 *        Similarly, this must be a valid output-capable GPIO pin.
+		 */
+		void BMI088_init(int accel_cs, int gyro_cs);
+		
+		/**  Fetches the latest sensor data from the BMI088 sensor for both the accelerometer and gyroscope.
+		*   This function assumes that the sensor has been initialized with BMI088_init.
+		*   @param ax Pointer to a float where the accelerometer's X-axis data will be stored.
+		*   @param ay Pointer to a float where the accelerometer's Y-axis data will be stored.
+		*   @param az Pointer to a float where the accelerometer's Z-axis data will be stored.
+		*   @param gx Pointer to a float where the gyroscope's X-axis data will be stored.
+		*   @param gy Pointer to a float where the gyroscope's Y-axis data will be stored.
+		*   @param gz Pointer to a float where the gyroscope's Z-axis data will be stored.
+		* Note: All pointers must be valid and point to allocated memory where the sensor data can be stored.
+		*       The function will overwrite the data in these memory locations with the latest sensor readings.
+		*/
+		void BMI088_GetSensorData(float *ax, float *ay, float *az, float *gx, float *gy, float *gz);
 };
 
 #endif

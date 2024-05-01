@@ -145,13 +145,12 @@ double XSpaceV21Board::GetEncoderPosition(int encx, int modo){
 	return pos;
 }
 
-void XSpaceV21Board::Bmi088_init(int accel_cs, int gyro_cs){
+void XSpaceV21Board::BMI088_init(int accel_cs, int gyro_cs){
 	bmi = new XSBMI088(SPI,accel_cs,gyro_cs);
 	bmi->begin();
 }
 
-void XSpaceV21Board::Bmi088_readSensor(float *ax, float *ay, float *az, float *gx, float *gy, float *gz){
+void XSpaceV21Board::BMI088_GetSensorData(float *ax, float *ay, float *az, float *gx, float *gy, float *gz){
 	bmi->readSensor(ax,ay,az,gx,gy,gz);
-	
 }
 

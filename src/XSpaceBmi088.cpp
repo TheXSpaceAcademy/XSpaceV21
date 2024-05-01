@@ -1,6 +1,6 @@
 
 #include <Arduino.h>
-#include <XSpaceBmi088.h>
+#include <XSpaceBMI088.h>
 #include <SPI.h>
 
 /* Macros to get and set register fields */
