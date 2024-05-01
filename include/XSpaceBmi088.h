@@ -4,6 +4,9 @@
 #include <SPI.h>
 #include <Arduino.h>
 
+#define CS_Accel  0
+#define CS_Gyro   5
+
 class Bmi088Accel {
   public:
     enum Range {

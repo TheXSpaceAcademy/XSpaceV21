@@ -36,6 +36,7 @@ void IRAM_ATTR ISR_encoder2(){
 void XSpaceV21Board::init(int frequency, double resolution, double Vm){
 	this->DRV8837_init(0,DRVx1_IN1, 2, DRVx1_IN2, 3, DRVx1_nSLEEP, 20000, Vm);
 	this->DRV8837_init(1,DRVx2_IN1, 0, DRVx2_IN2, 1, DRVx2_nSLEEP, 20000, Vm);
+	this->BMI088_init(CS_Accel,CS_Gyro);
 	this->encoder1_init(encoder1_CHA, encoder1_CHB, resolution, RISING);
 	this->encoder2_init(encoder2_CHA, encoder2_CHB, resolution, RISING);
 }
@@ -67,8 +68,6 @@ void XSpaceV21Board::DRV8837_init(int DRVx, int IN1x, int CH_IN1x, int IN2x, int
 	DRV88xx[DRVx].PWM_CH_IN1 = CH_IN1x;
 	DRV88xx[DRVx].PWM_CH_IN2 = CH_IN2x;
 	DRV88xx[DRVx].Vm = Vmx;
-
-	pinMode(13,OUTPUT);
 
 	pinMode(DRV88xx[DRVx].nSLEEP,OUTPUT);
 	this->DRV8837_Sleep(DRVx);
