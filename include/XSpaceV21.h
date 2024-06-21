@@ -95,10 +95,18 @@ class XSpaceV21Board{
 		*/
 		void DRV8837_init(int DRVx, int IN1x, int CH_IN1x, int IN2x, int CH_IN2x, int nSLEEPx,int frequencyx, int Vmx);
 
+		/* Put both DRV8837 motor drivers into sleep mode, reducing power consumption.
+		*/
+		void DRV8837_Sleep();
+
 		/** Puts the DRV8837 motor driver into sleep mode, reducing power consumption.
 			@param DRVx index of DRV8837 (DRVx1, DRVx2)
 		*/
 		void DRV8837_Sleep(int DRVx);
+
+		/* Wake both DRV8837 motor drivers from sleep mode, enabling normal operation.
+		*/
+		void DRV8837_Wake();
 
 		/** Wakes the DRV8837 motor driver from sleep mode, enabling normal operation.
 			@param DRVx index of DRV8837 (DRVx1, DRVx2)

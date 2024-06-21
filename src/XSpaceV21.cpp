@@ -80,8 +80,18 @@ void XSpaceV21Board::DRV8837_init(int DRVx, int IN1x, int CH_IN1x, int IN2x, int
 
 }
 
+void XSpaceV21Board::DRV8837_Sleep(){
+	digitalWrite(DRV88xx[DRVx1].nSLEEP,LOW);
+	digitalWrite(DRV88xx[DRVx2].nSLEEP,LOW);
+}
+
 void XSpaceV21Board::DRV8837_Sleep(int DRVx){
 	digitalWrite(DRV88xx[DRVx].nSLEEP,LOW);
+}
+
+void XSpaceV21Board::DRV8837_Wake(){
+	digitalWrite(DRV88xx[DRVx1].nSLEEP,HIGH);
+	digitalWrite(DRV88xx[DRVx2].nSLEEP,HIGH);
 }
 
 void XSpaceV21Board::DRV8837_Wake(int DRVx){

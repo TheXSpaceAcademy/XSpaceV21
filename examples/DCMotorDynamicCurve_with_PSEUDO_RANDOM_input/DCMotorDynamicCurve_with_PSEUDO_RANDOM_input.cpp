@@ -1,6 +1,7 @@
 /**
  This program enables obtaining the dynamic response of a DC motor considering PSEUDO-RANDOM voltage inputs.
- The example uses the XSpace V2.1 board and one of the two DRV8837 drivers, marked as DRVx1, and the encoder connector E2.
+ The example uses the XSpace V2.1 board and one of the two DRV8837 drivers, marked as DRVx1, 
+ and the encoder connector E2.
  */
 
 #include <Arduino.h>
