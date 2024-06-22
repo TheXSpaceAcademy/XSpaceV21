@@ -55,9 +55,9 @@ struct XSDRV88xx{
 
 class XSpaceV21Board{
 	private:
-			double _vel_ant = 0;
-			XSDRV88xx DRV88xx[2];
-      XSBMI088 *bmi;
+		double _vel_ant = 0;
+		XSDRV88xx DRV88xx[2];
+		XSBMI088 *bmi;
 
 	public:
 		/** Initializes the board and motor driver
@@ -181,6 +181,8 @@ class XSpaceV21Board{
 		 *        The provided memory location will be overwritten with the new sensor output.
 		 */
 		void BMI088_GetGyroData(float *gx, float *gy, float *gz);
+
+		void BMI088_calibrateGyro(float *gx_offset, float *gy_offset, float *gz_offset);
 };
 
 #endif

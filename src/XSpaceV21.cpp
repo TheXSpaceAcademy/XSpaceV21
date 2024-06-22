@@ -4,8 +4,8 @@
   This is an open source library but dont remeber to reference!
 */
 
-#include <XSpaceV21.h>
 #include <Arduino.h>
+#include <XSpaceV21.h>
 #include <XSpaceBmi088.h>
 
 volatile double TimerValue[2] = {0, 0};
@@ -169,4 +169,27 @@ void XSpaceV21Board::BMI088_GetAccelData(float *ax, float *ay, float *az){
 
 void XSpaceV21Board::BMI088_GetGyroData(float *gx, float *gy, float *gz){
 	bmi->readGyro(gx,gy,gz);
+}
+
+void XSpaceV21Board::BMI088_calibrateGyro(float *gx_offset, float *gy_offset, float *gz_offset){
+	int numReadings = 1000;
+	float gx,gy,gz;
+	float gx_sum = 0;
+	float gy_sum = 0;
+	float gz_sum = 0;
+
+	for (int i = 0; i < numReadings; i++) {
+	// Retrieve the latest gyroscope data from the BMI088 sensor.
+	this->BMI088_GetGyroData(&gx, &gy, &gz);
+
+	gx_sum += gx;
+	gy_sum += gy;
+	gz_sum += gz;
+
+	delay(2); // Small delay between readings
+	}
+
+	*gx_offset = gx_sum / numReadings;
+	*gy_offset = gy_sum / numReadings;
+	*gz_offset = gz_sum / numReadings;
 }

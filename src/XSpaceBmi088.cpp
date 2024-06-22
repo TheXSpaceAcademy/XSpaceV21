@@ -976,10 +976,6 @@ void Bmi088Accel::readRegisters(uint8_t subAddress, uint8_t count, uint8_t* dest
 }
 
 
-
-
-
-
 /* BMI088 object, input the SPI bus and chip select pin */
 Bmi088Gyro::Bmi088Gyro(SPIClass &bus,uint8_t csPin)
 {

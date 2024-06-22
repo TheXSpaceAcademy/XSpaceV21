@@ -1,8 +1,9 @@
 #ifndef XSPACEBMI088_H
 #define XSPACEBMI088_H
 
-#include <SPI.h>
 #include <Arduino.h>
+#include <SPI.h>
+
 
 #define CS_Accel  0
 #define CS_Gyro   5
