@@ -193,3 +193,9 @@ void XSpaceV21Board::BMI088_calibrateGyro(float *gx_offset, float *gy_offset, fl
 	*gy_offset = gy_sum / numReadings;
 	*gz_offset = gz_sum / numReadings;
 }
+
+double XSpaceV21Board::BMI088_GetPitch_Accel(){
+	float ax,ay,az;
+	this->BMI088_GetAccelData(&ax, &ay, &az);
+	float pitchAccel = atan2(-ax, sqrt(ay * ay + az * az)) * 180.0 / PI; // Convert radians to degrees
+}
