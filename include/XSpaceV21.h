@@ -184,7 +184,7 @@ class XSpaceV21Board{
 
 		void BMI088_calibrateGyro(float *gx_offset, float *gy_offset, float *gz_offset);
 
-		double XSpaceV21Board::BMI088_GetPitch_Accel();
+		double BMI088_GetPitch_Accel();
 };
 
 #endif
