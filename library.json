@@ -1,8 +1,8 @@
 {
     "name": "XSpaceV21",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "description": "Library used for XSpace v2.1 Boards",
-    "keywords": "control, drv8837, esp32, iot, xspace, xspacev21",
+    "keywords": "control, drv8837, esp32, iot, xspace, xspacev21, robot, arduino, bmi088",
     "repository":
     {
       "type": "git",
